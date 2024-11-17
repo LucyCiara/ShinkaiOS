@@ -1,0 +1,11 @@
+>root
+>>地図(MAP).COM
+>>文書(DOCUMENTS)
+>>>牛頭(COW HEAD).txt
+>>>日誌(LOGS)
+>>>>日誌1(LOG1).txt
+>>>>CORRUPTED
+>>>>CORRUPTED
+>>>>CORRUPTED
+>>>>CORRUPTED...
+
