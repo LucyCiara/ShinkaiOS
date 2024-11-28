@@ -1,4 +1,4 @@
-import os, curses, time, re, string, random
+import os, curses, time, re, string, random, textwrap
 os.system('cls' if os.name == 'nt' else 'clear')
 
 # Checks if the string has japanese characters and returns a match
@@ -8,6 +8,7 @@ def checkJp(string: str) -> object:
 
 # Adds spaces after japanese letters because they take up twice the space in terminals, and otherwise they'll mesh together.
 def displayOrderConvertion(displayOrder: list, WIDTH) -> list:
+    wrapper = textwrap.TextWrapper(width=WIDTH)
     newDisplayOrder = []
     for i in range(len(displayOrder)):
         newDisplayString = ""
@@ -16,9 +17,10 @@ def displayOrderConvertion(displayOrder: list, WIDTH) -> list:
                 newDisplayString += f"{displayOrder[i][j]} "
             else:
                 newDisplayString += displayOrder[i][j]
-
-        for j in range(len(newDisplayString)//WIDTH+1):
-            newDisplayOrder.append(newDisplayString[WIDTH*j:WIDTH*(j+1)])
+        
+        newDisplayString = wrapper.wrap(text=newDisplayString)
+        for line in newDisplayString:
+            newDisplayOrder.append(line)
 
     return newDisplayOrder
 
@@ -225,28 +227,13 @@ def main(stdscr):
     stdscr.refresh()
     time.sleep(0.5)
     
-    # Extracts the ascii art from warning.txt
-    warning = []
-    with open("data/warning.txt", mode="r", encoding="utf-8") as dataFile:
-        warning = dataFile.readlines()
-    
-    # Finds all the coordinates of '＃'s of the text extracted from warning.txt
-    warningCoords = []
-    for i in range(len(warning)):
-        for j in range(len(warning[i])):
-            if warning[i][j] == '＃':
-                warningCoords.append((i, j))
-
-    # Find out where how much to skew the text in order to center the ascii art in the terminal
-    startY = (HEIGHT-len(warning))//4
-    startX = (WIDTH-len(warning[0]))//2
-
     # Simulates a warning screen
-    for item in warningCoords:
-        stdscr.addstr(item[0]+startY, item[1]+startX, "＃", curses.color_pair(2))
-        if item == warningCoords[-1]:
-            for i in range(len(warningText)):
-                stdscr.addstr(item[0]+startY+i+2, (WIDTH-len(warningText[i]))//2, warningText[i], curses.color_pair(3))
+    warning = "警 告 "
+    startY = (HEIGHT-1)//2
+    startX = (WIDTH-len(warning))//2
+    stdscr.addstr(startY, startX, warning, curses.color_pair(2))
+    for i in range(len(warningText)):
+        stdscr.addstr(startY+i+1, (WIDTH-len(warningText[i]))//2, warningText[i], curses.color_pair(3))
     stdscr.refresh()
     time.sleep(3)
     curses.curs_set(2)

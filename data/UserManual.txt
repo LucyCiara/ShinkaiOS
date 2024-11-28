@@ -1,3 +1,0 @@
-ようこそ！(Welcome!)
-このプログラムは、発見された未発表の「OS」です。(This program is a discovered, unreleased "OS".)
-もしファイルを読みたかったら、ファイル名を入力しなくてはなりません。(If you want to read a file, you have to enter the file name.)
