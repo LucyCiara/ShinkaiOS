@@ -111,7 +111,7 @@ def MinatomachiWharf(stdscr, HEIGHT, WIDTH):
     displayOrder = displayOrderConvertion([
         "Minatomachi Wharf",
         "Some teenagers have gotten their hands on an occult item. It needs to be destroyed before they figure out how to use it and hurt someone or bring the attention of [CORRUPTED].",
-        "Time limit: As soon as possible."
+        "Time limit: As soon as possible.",
         ">"
         ], WIDTH)
     # The program loop
@@ -134,7 +134,7 @@ def OtarutenguyamaShrine(stdscr, HEIGHT, WIDTH):
         "Otarutenguyama Shrine",
         "The spirits in the area are angry. Appease them through some means.",
         "It is recommended to bring some salt.",
-        "Time limit: 2 days."
+        "Time limit: 2 days.",
         ">"
         ], WIDTH)
     # The program loop
