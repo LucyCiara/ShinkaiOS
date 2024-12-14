@@ -133,10 +133,21 @@ def Log1(stdscr, HEIGHT, WIDTH):
         ], WIDTH)
     TextFile(stdscr, displayOrder, HEIGHT)
 
+# Displays the second log
+def Log2(stdscr, HEIGHT, WIDTH):
+    displayOrder = displayOrderConvertion([
+        "I've managed to somehow update the program by feeding it signals from some wonky stuff happening at the abandoned nuclear power plant. I was sneaking in while Haze was out doing her stuff, and sat up this device i saw in my dreams. It took me like a month of trying to build that thing, and I started coughing up some blood, but-like-I've been told that the radiation coming from those power plants are like a harmless X-Ray, so I'll be fine.",
+        "It seems like it was some sort of test from the program to check if I was worthy to get the full use of it. I wonder if there'll be more updates in the future... Anyways I can now write in the names of the areas highlighted on the map and get some information about them. Their descriptions are really worrying and mentioning 'Ghosts' and 'Forbidden texts housing demons' and shit. I checked out one of these locations, and while I didn't see any ghosts and have never been the occult type, I felt like there was definitely something paranormal going on.",
+        "I've also noticed some blue text popping up, and I'm not sure what that's about, but I feel like I've read the program talk about '青いテクスト' somewhere... Oh well it's probably not important LMFAO.",
+        ">"
+        ], WIDTH)
+    TextFile(stdscr, displayOrder, HEIGHT)
+
 # Displays the Logs directory
 def Logs(stdscr, HEIGHT, WIDTH):
     displayOrder = displayOrderConvertion([
         "Log1",
+        "Log2",
         ">"
         ], WIDTH)
     
@@ -154,6 +165,8 @@ def Logs(stdscr, HEIGHT, WIDTH):
             replyLoop = False
         elif usrInput == b'Log1':
             Log1(stdscr, HEIGHT, WIDTH)
+        elif usrInput == b'Log2':
+            Log2(stdscr, HEIGHT, WIDTH)
 
 # Writes the documents directory
 def Documents(stdscr, HEIGHT, WIDTH):
@@ -175,7 +188,7 @@ def Documents(stdscr, HEIGHT, WIDTH):
         usrInput = stdscr.getstr()
         if usrInput == b'..':
             replyLoop = False
-        elif usrInput == '牛頭.TXT'.encode(encoding="utf-8"):
+        elif usrInput == '牛頭.TXT'.encode(encoding="utf-8") or usrInput == '牛 頭 .TXT'.encode(encoding="utf-8"):
             CowHead(stdscr, HEIGHT, WIDTH)
         elif usrInput == b'Logs':
             Logs(stdscr, HEIGHT, WIDTH)
@@ -190,7 +203,7 @@ def main(stdscr):
     curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_WHITE)
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
     curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
-    programVersion = "v1.0"
+    programVersion = "v1.1"
     warningText = displayOrderConvertion([
         "端末の解像度を変えないでください。",
         "青いテクストを信用しないでください。"
