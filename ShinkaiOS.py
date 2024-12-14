@@ -25,7 +25,7 @@ def displayOrderConvertion(displayOrder: list, WIDTH) -> list:
     return newDisplayOrder
 
 # Takes lines of text and puts them on the screen
-def TextFile(stdscr, displayOrder, HEIGHT):
+def TextFile(stdscr, displayOrder: list, HEIGHT: int):
     replyLoop = True
     while replyLoop:
         if len(displayOrder) < HEIGHT:
@@ -54,6 +54,45 @@ def TextFile(stdscr, displayOrder, HEIGHT):
         if usrInput == b'..':
             replyLoop = False
 
+# Takes lines of text and puts them on the screen
+def TextFileWithColor(stdscr, displayOrder: list, HEIGHT: int, colorText: str, color: curses.color_pair):
+    replyLoop = True
+    while replyLoop:
+
+
+        if len(displayOrder) < HEIGHT:
+            # Writes the text file
+            stdscr.clear()
+            
+            for i in range(len(displayOrder)):
+                stdscr.addstr(i, 0, displayOrder[i])
+
+                if displayOrder[i].find(colorText) != -1:
+                        stdscr.addstr(i, displayOrder[i].find(colorText), colorText, color)
+            
+            stdscr.refresh()
+
+
+        else:
+            # Splits the text into multiple pages if it's too long
+            for x in range(len(displayOrder)//HEIGHT+1):
+                stdscr.clear()
+                
+                for i in range(len(displayOrder[HEIGHT*x:HEIGHT*(x+1)])):
+                    stdscr.addstr(i, 0, displayOrder[HEIGHT*x:HEIGHT*(x+1)][i])
+
+                    if displayOrder[i].find(colorText):
+                        stdscr.addstr(i, displayOrder[HEIGHT*x:HEIGHT*(x+1)][i].find(colorText), colorText, color)
+                
+                stdscr.refresh()
+                
+                if x != len(displayOrder)//HEIGHT:
+                    stdscr.getkey()
+
+        # Reads input to check if the user has written '..', which will exit this function
+        usrInput = stdscr.getstr()
+        if usrInput == b'..':
+            replyLoop = False
 
 # A function for displaying the text from the user manual
 def UserManual(stdscr, HEIGHT, WIDTH):
@@ -62,6 +101,37 @@ def UserManual(stdscr, HEIGHT, WIDTH):
         "このプログラムは、発見された未発表の「OS」です。(This program is a discovered, unreleased 'OS'.)", 
         "もしファイルを読みたかったら、ファイル名を入力しなくてはなりません。(If you want to read a file, you have to enter the file name.)", 
         "ディレクトリを移動したかったら、「..」を入力しなくてはなりません。 (If you want to exit a directory, you have to enter'..')", 
+        ">"
+        ], WIDTH)
+    # The program loop
+    TextFile(stdscr, displayOrder, HEIGHT)
+
+# A function for displaying the information about Minatomachi Wharf
+def MinatomachiWharf(stdscr, HEIGHT, WIDTH):
+    displayOrder = displayOrderConvertion([
+        "Minatomachi Wharf",
+        "Some teenagers have gotten their hands on an occult item. It needs to be destroyed before they figure out how to use it and hurt someone or bring the attention of [CORRUPTED].",
+        ">"
+        ], WIDTH)
+    # The program loop
+    TextFileWithColor(stdscr, displayOrder, HEIGHT, "[CORRUPTED]", curses.color_pair(5))
+
+# A function for displaying the information about Otaru High School
+def OtaruHighSchool(stdscr, HEIGHT, WIDTH):
+    displayOrder = displayOrderConvertion([
+        "Minatomachi Wharf",
+        "Locals are talking about strange disappearances of students sneaking into school at night. Investigate why, and prevent more students from disappearing.",
+        "If you see stairs leading down from the ground floor, descend them.",
+        ">"
+        ], WIDTH)
+    # The program loop
+    TextFileWithColor(stdscr, displayOrder, HEIGHT, "descend them.", curses.color_pair(4))
+
+def OtarutenguyamaShrine(stdscr, HEIGHT, WIDTH):
+    displayOrder = displayOrderConvertion([
+        "Otarutenguyama Shrine",
+        "The spirits in the area are angry. Appease them through some means.",
+        "It is recommended to bring some salt.",
         ">"
         ], WIDTH)
     # The program loop
@@ -98,6 +168,12 @@ def Map(stdscr, HEIGHT, WIDTH):
         usrInput = stdscr.getstr()
         if usrInput == b'..':
             replyLoop = False
+        elif usrInput == b'Minatomachi Wharf':
+            MinatomachiWharf(stdscr, HEIGHT, WIDTH)
+        elif usrInput == b'Otaru High School':
+            OtaruHighSchool(stdscr, HEIGHT, WIDTH)
+        elif usrInput == b'Otarutenguyama Shrine':
+            OtarutenguyamaShrine(stdscr, HEIGHT, WIDTH)
 
 # Writes the corrupted "牛頭" file
 def CowHead(stdscr, HEIGHT, WIDTH):
@@ -203,6 +279,8 @@ def main(stdscr):
     curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_WHITE)
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
     curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+    curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
+    curses.init_pair(5, curses.COLOR_GREEN, curses.COLOR_BLACK)
     programVersion = "v1.1"
     warningText = displayOrderConvertion([
         "端末の解像度を変えないでください。",
